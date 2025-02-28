@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tasktable {
+  id          Int               @id @default(autoincrement())
+  title       String            @db.VarChar(255)
+  description String?           @db.Text
+  status      tasktable_status  @default(Pending)
+  due_date    DateTime?         @db.DateTime(0)
+  created_at  DateTime?         @default(now()) @db.Timestamp(0)
+}
+
+enum tasktable_status {
+  Pending
+  In_Progress @map("In Progress")
+  Completed
+}
